@@ -1,0 +1,1 @@
+ElectricBall is an SMG1 object commonly found in Battlerock and Dreadnoguht Galaxies.
