@@ -85,10 +85,10 @@ void ElectricBall::init(const JMapInfoIter& rIter) {
 }
 
 void ElectricBall::initAfterPlacement() {
+    // I hate #include <algorithim> :reallyMad:
     for (Ball* ball = mBalls.begin(); ball != mBalls.end(); ++ball) {
         ball->updatePosition(mBaseMtx);
     }
-
     Ball* ball = getNearestBall();
     mClosestBallPos.set(ball->mHost->mTranslation);
 }
@@ -107,7 +107,6 @@ void ElectricBall::control() {
     if (isNerve(&NrvElectricBall::HostTypeMove::sInstance) || isNerve(&NrvElectricBall::HostTypeAttack::sInstance)) {
         if (mRailMover != nullptr) {
             mRailMover->movement();
-
             if (mRailMover->isWorking()) {
                 mTranslation.set(mRailMover->mTranslation);
             }
@@ -122,10 +121,8 @@ void ElectricBall::control() {
         for (Ball* ball = mBalls.begin(); ball != mBalls.end(); ++ball) {
             ball->updatePosition(mBaseMtx);
         }
-
         MR::startLevelSound(this, "SE_OJ_LV_BIRIKYU_MOVE");
     }
-
     Ball* pBall = getNearestBall();
     mClosestBallPos.set(pBall->mHost->mTranslation);
 }
@@ -149,13 +146,10 @@ bool ElectricBall::receiveMsgPlayerAttack(u32 msg, HitSensor*, HitSensor*) {
 void ElectricBall::initBalls(const JMapInfoIter& rIter) {
     s32 arg0 = ::sNumBallsDefault;
     MR::getJMapInfoArg0NoInit(rIter, &arg0);
-
     mBalls.init(arg0);
-
     for (Ball* ball = mBalls.begin(); ball != mBalls.end(); ++ball) {
         ball->init(this);
     }
-
     TVec3f vec(mRadius, 0.0f, 0.0f);
     f32 f1 = TWO_PI / mBalls.size();
 
@@ -185,11 +179,9 @@ void ElectricBall::startMove() {
     if (mRailMover != nullptr) {
         mRailMover->start();
     }
-
     for (Ball* ball = mBalls.begin(); ball != mBalls.end(); ++ball) {
         ball->activate();
     }
-
     setNerve(&NrvElectricBall::HostTypeMove::sInstance);
 }
 
